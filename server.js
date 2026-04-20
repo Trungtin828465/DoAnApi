@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
+const roomRoutes = require('./routes/room');
 
 const app = express();
 
@@ -23,6 +24,7 @@ mongoose
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api', roomRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
