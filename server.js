@@ -28,6 +28,7 @@ mongoose
 app.use('/api/auth', authRoutes);
 app.use('/api', roomRoutes);
 app.use('/api/tts', ttsRoutes);
+app.use('/api/stt', sttRoutes);
 app.use('/api/detect', detectRoutes);
 
 // Health check
