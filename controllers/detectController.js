@@ -45,7 +45,7 @@ function handleWorkerMessage(line) {
   try {
     message = JSON.parse(line);
   } catch (error) {
-    console.error('Failed to parse worker output:', line);
+    console.warn('Ignoring non-JSON worker output:', line);
     return;
   }
 

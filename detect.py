@@ -1,8 +1,9 @@
 import sys
 import json
 import os
+import tempfile
 
-YOLO_CONFIG_DIR = os.environ.get("YOLO_CONFIG_DIR", "/tmp/Ultralytics")
+YOLO_CONFIG_DIR = os.environ.get("YOLO_CONFIG_DIR", os.path.join(tempfile.gettempdir(), "Ultralytics"))
 os.environ["YOLO_CONFIG_DIR"] = YOLO_CONFIG_DIR
 os.makedirs(YOLO_CONFIG_DIR, exist_ok=True)
 
