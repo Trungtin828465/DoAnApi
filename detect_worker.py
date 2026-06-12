@@ -2,6 +2,11 @@ import json
 import os
 import sys
 import cv2
+
+YOLO_CONFIG_DIR = os.environ.get("YOLO_CONFIG_DIR", "/tmp/Ultralytics")
+os.environ["YOLO_CONFIG_DIR"] = YOLO_CONFIG_DIR
+os.makedirs(YOLO_CONFIG_DIR, exist_ok=True)
+
 from ultralytics import YOLO
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
