@@ -24,7 +24,10 @@ const getTempDir = () => {
 function runPythonDetection(imagePath, confidence = CONFIDENCE_THRESHOLD) {
   return new Promise((resolve, reject) => {
     const pythonScript = path.join(__dirname, '../detect.py');
-    const pythonProcess = spawn('python', [pythonScript, imagePath, confidence.toString()]);
+    const pythonExecutable =
+      process.env.PYTHON_BIN ||
+      (os.platform() === 'win32' ? 'python' : 'python3');
+    const pythonProcess = spawn(pythonExecutable, [pythonScript, imagePath, confidence.toString()]);
     
     let output = '';
     let errorOutput = '';
@@ -57,7 +60,7 @@ function runPythonDetection(imagePath, confidence = CONFIDENCE_THRESHOLD) {
     
     pythonProcess.on('error', (err) => {
       console.error('Failed to start Python process:', err);
-      reject(new Error(`Failed to start Python process: ${err.message}`));
+      reject(new Error(`Failed to start Python process with "${pythonExecutable}": ${err.message}`));
     });
     
     // Set timeout (30 seconds)

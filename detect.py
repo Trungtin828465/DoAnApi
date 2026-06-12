@@ -3,6 +3,8 @@ import json
 import os
 from ultralytics import YOLO
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Class mapping (12 furniture types)
 CLASS_NAMES = {
     0: "bed",
@@ -37,7 +39,7 @@ def detect_objects(image_path, confidence_threshold=0.1):
             })
         
         # Load model
-        model_path = "model/best.pt"
+        model_path = os.path.join(BASE_DIR, "model", "best.pt")
         if not os.path.exists(model_path):
             return json.dumps({
                 "success": False,
