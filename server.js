@@ -6,7 +6,6 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const roomRoutes = require('./routes/room');
 const ttsRoutes = require('./routes/tts');
-const detectRoutes = require('./routes/detect');
 
 const app = express();
 
@@ -28,7 +27,6 @@ mongoose
 app.use('/api/auth', authRoutes);
 app.use('/api', roomRoutes);
 app.use('/api/tts', ttsRoutes);
-app.use('/api/detect', detectRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -58,4 +56,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`API URL: http://localhost:${PORT}/api`);
 });
-
