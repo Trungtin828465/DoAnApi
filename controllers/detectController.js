@@ -182,10 +182,6 @@ function runPythonDetection(imagePath, confidence = CONFIDENCE_THRESHOLD) {
   });
 }
 
-startWorker().catch((error) => {
-  console.error('Initial detection worker start failed:', error.message);
-});
-
 exports.detectObjects = async (req, res) => {
   try {
     if (!req.file) {
