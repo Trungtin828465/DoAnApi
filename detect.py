@@ -11,14 +11,14 @@ CLASS_NAMES = {
     1: "sofa",
     2: "chair",
     3: "table",
-    4: "lamp",
-    5: "tv",
-    6: "laptop",
-    7: "wardrobe",
+    4: "wardrobe",
+    5: "refrigerator",
+    6: "tv",
+    7: "door",
     8: "window",
-    9: "door",
-    10: "potted plant",
-    11: "photo frame"
+    9: "fan",
+    10: "laptop",
+    11: "washing_machine"
 }
 
 def detect_objects(image_path, confidence_threshold=0.1):
