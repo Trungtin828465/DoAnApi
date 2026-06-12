@@ -1,10 +1,12 @@
 import json
 import os
 import sys
+import cv2
 from ultralytics import YOLO
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "model", "best.pt")
+MAX_IMAGE_DIMENSION = int(os.environ.get("DETECTION_MAX_IMAGE_DIMENSION", "1280"))
 
 CLASS_NAMES = {
     0: "bed",
@@ -33,6 +35,23 @@ def load_model():
     return YOLO(MODEL_PATH)
 
 
+def load_image_for_inference(image_path):
+    image = cv2.imread(image_path)
+    if image is None:
+        raise ValueError(f"Unable to read image: {image_path}")
+
+    height, width = image.shape[:2]
+    longest_side = max(height, width)
+
+    if longest_side <= MAX_IMAGE_DIMENSION:
+        return image
+
+    scale = MAX_IMAGE_DIMENSION / float(longest_side)
+    resized_width = max(1, int(width * scale))
+    resized_height = max(1, int(height * scale))
+    return cv2.resize(image, (resized_width, resized_height), interpolation=cv2.INTER_AREA)
+
+
 def detect_objects(model, image_path, confidence_threshold=0.1):
     if not os.path.exists(image_path):
         return {
@@ -40,7 +59,8 @@ def detect_objects(model, image_path, confidence_threshold=0.1):
             "message": f"Image file not found: {image_path}"
         }
 
-    results = model(image_path, conf=confidence_threshold, verbose=False)
+    image = load_image_for_inference(image_path)
+    results = model(image, conf=confidence_threshold, verbose=False)
     detections = []
 
     for result in results:

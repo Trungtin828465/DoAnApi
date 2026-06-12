@@ -6,6 +6,7 @@ const readline = require('readline');
 
 const CONFIDENCE_THRESHOLD = 0.1;
 const DETECTION_TIMEOUT_MS = Number(process.env.DETECTION_TIMEOUT_MS || 30000);
+const DETECTION_STARTUP_TIMEOUT_MS = Number(process.env.DETECTION_STARTUP_TIMEOUT_MS || 120000);
 
 const pythonExecutable =
   process.env.PYTHON_BIN ||
@@ -96,9 +97,9 @@ function startWorker() {
         return;
       }
 
-      reject(new Error(`Detection worker startup timeout after ${DETECTION_TIMEOUT_MS}ms`));
+      reject(new Error(`Detection worker startup timeout after ${DETECTION_STARTUP_TIMEOUT_MS}ms`));
       child.kill();
-    }, DETECTION_TIMEOUT_MS);
+    }, DETECTION_STARTUP_TIMEOUT_MS);
 
     const stdoutReader = readline.createInterface({ input: child.stdout });
     stdoutReader.on('line', (line) => {
@@ -226,6 +227,8 @@ exports.detectHealth = (req, res) => {
     model: 'YOLOv8',
     confidence_threshold: CONFIDENCE_THRESHOLD,
     detection_timeout_ms: DETECTION_TIMEOUT_MS,
+    detection_startup_timeout_ms: DETECTION_STARTUP_TIMEOUT_MS,
+    worker_starting: Boolean(workerStarting) && !workerReady,
     worker_ready: workerReady
   });
 };
