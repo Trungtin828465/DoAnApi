@@ -3,7 +3,7 @@ const User = require('../models/User');
 // Đăng ký
 exports.register = async (req, res) => {
   try {
-    const { Email, Password, FullName } = req.body;
+    const { Email, Password, FullName, NumberPhone } = req.body;
 
     // Kiểm tra input
     if (!Email || !Password || !FullName) {
@@ -25,6 +25,7 @@ exports.register = async (req, res) => {
       Email,
       Password: Password,
       FullName,
+      NumberPhone,
     });
 
     res.status(201).json({
@@ -33,6 +34,7 @@ exports.register = async (req, res) => {
         _id: newUser._id,
         Email: newUser.Email,
         FullName: newUser.FullName,
+        NumberPhone: newUser.NumberPhone,
         CreatedAt: newUser.CreatedAt,
       },
     });
@@ -81,6 +83,7 @@ exports.login = async (req, res) => {
         _id: user._id,
         Email: user.Email,
         FullName: user.FullName,
+        NumberPhone: user.NumberPhone,
         CreatedAt: user.CreatedAt,
       },
     });
