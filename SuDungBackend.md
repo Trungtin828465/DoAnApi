@@ -31,7 +31,7 @@ Yêu cầu cài trước:
 Clone source code:
 
 ```bash
-git clone <REPOSITORY_URL>
+git clone https://github.com/Trungtin828465/DoAnApi.git
 cd backend
 ```
 
