@@ -1,9 +1,19 @@
 const User = require('../models/User');
 
+function normalizeEmail(email) {
+  return String(email || '').trim();
+}
+
+function normalizePassword(password) {
+  return String(password || '').trim();
+}
+
 // Đăng ký
 exports.register = async (req, res) => {
   try {
-    const { Email, Password, FullName } = req.body;
+    const Email = normalizeEmail(req.body.Email);
+    const Password = normalizePassword(req.body.Password);
+    const { FullName, NumberPhone } = req.body;
 
     // Kiểm tra input
     if (!Email || !Password || !FullName) {
@@ -25,6 +35,7 @@ exports.register = async (req, res) => {
       Email,
       Password: Password,
       FullName,
+      NumberPhone,
     });
 
     res.status(201).json({
@@ -33,6 +44,7 @@ exports.register = async (req, res) => {
         _id: newUser._id,
         Email: newUser.Email,
         FullName: newUser.FullName,
+        NumberPhone: newUser.NumberPhone,
         CreatedAt: newUser.CreatedAt,
       },
     });
@@ -48,7 +60,8 @@ exports.register = async (req, res) => {
 // Đăng nhập
 exports.login = async (req, res) => {
   try {
-    const { Email, Password } = req.body;
+    const Email = normalizeEmail(req.body.Email);
+    const Password = normalizePassword(req.body.Password);
 
     // Kiểm tra input
     if (!Email || !Password) {
@@ -67,7 +80,7 @@ exports.login = async (req, res) => {
     }
 
     // Kiểm tra password
-    const isPasswordCorrect = Password === user.Password;
+    const isPasswordCorrect = Password === normalizePassword(user.Password);
     
     if (!isPasswordCorrect) {
       return res.status(401).json({
@@ -81,6 +94,7 @@ exports.login = async (req, res) => {
         _id: user._id,
         Email: user.Email,
         FullName: user.FullName,
+        NumberPhone: user.NumberPhone,
         CreatedAt: user.CreatedAt,
       },
     });
