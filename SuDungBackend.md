@@ -44,7 +44,7 @@ npm install
 Tạo file `.env` trong thư mục gốc của backend:
 
 ```env
-MONGODB_URI=mongodb+srv://trungtin0972_db_user:Trungtin828465@cluster0.38vwqyj.mongodb.net/DoAn
+MONGODB_URI=mongodb+srv://trungtin0972_db_user:Password@cluster0.38vwqyj.mongodb.net/DoAn
 PORT=3000
 NODE_ENV=development
 
